@@ -86,7 +86,7 @@ def main():
   print("invert matrix B")
   pprint.pprint(mat_A33_inv_GJ, width=20)
 
-  print("A B == indentical")
+  print("A B == identity matrix")
   pprint.pprint(mat_mul(A33_list, mat_A33_inv_GJ), width=20)
 
 
