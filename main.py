@@ -31,12 +31,17 @@ def gauss_jordan(A:Matrix) -> Matrix:
     
     # pivot loop
     for p in range(len(AX)):
-        
+        print(f"p = {p}")
+        pprint.pprint(AX, width=50)
+
         one_over_pivot = 1.0 / AX[p][p]
 
         # normalize a row with one_over_pivot
         for j in range(len(AX[p])):
             AX[p][j] *= one_over_pivot
+
+        print(f"p = {p} after normalization")
+        pprint.pprint(AX, width=50)
 
         # row loop
         for i in range(len(AX)):
@@ -47,6 +52,10 @@ def gauss_jordan(A:Matrix) -> Matrix:
                 # column loop
                 for j in range(0, len(AX[p])):
                     AX[i][j] += multiplier * AX[p][j]
+
+            print(f"p = {p} after i = {i}")
+            pprint.pprint(AX, width=50)
+            input("=== Press Enter ===")
 
     return [row[len(A):] for row in AX]
 
@@ -74,7 +83,10 @@ def main():
 
   mat_A33_inv_GJ = gauss_jordan(A33_list)
 
+  print("invert matrix B")
   pprint.pprint(mat_A33_inv_GJ, width=20)
+
+  print("A B == indentical")
   pprint.pprint(mat_mul(A33_list, mat_A33_inv_GJ), width=20)
 
 
