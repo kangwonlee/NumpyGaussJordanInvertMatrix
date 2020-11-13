@@ -48,7 +48,8 @@ def gauss_jordan(A:Matrix) -> Matrix:
 
 
 def show_mat(matA:Matrix, title:str='', filename='this.png',):
-  plt.pcolor(matA)
+  # https://numpy.org/doc/stable/reference/generated/numpy.flipud.html
+  plt.pcolor(np.flipud(matA))
   plt.axis('equal')
   plt.title(title)
   plt.savefig(filename)
