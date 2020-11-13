@@ -23,14 +23,14 @@ def gauss_jordan(A:Matrix) -> Matrix:
     
     # pivot loop
     for p in range(len(AX)):
-        show_mat(AX, f"p = {p}")
+        show_mat(AX, f"p = {p}", f"p={p:03d}_0.png")
 
         one_over_pivot = 1.0 / AX[p, p]
 
         # normalize a row with one_over_pivot
         AX[p, :] *= one_over_pivot
 
-        show_mat(AX, f"p = {p} after normalization")
+        show_mat(AX, f"p = {p} after normalization", f"p={p:03d}_1.png")
 
         # row loop
         for i in range(len(AX)):
@@ -41,8 +41,7 @@ def gauss_jordan(A:Matrix) -> Matrix:
                 # column operation
                 AX[i, :] += multiplier * AX[p, :]
 
-            show_mat(AX, f"p = {p} after i = {i}")
-            input("=== Press Enter ===")
+            show_mat(AX, f"p = {p} after i = {i}", f"p={p:03d}_i={i:03d}.png")
 
     return np.hsplit(AX, 2)[-1]
 
@@ -53,6 +52,7 @@ def show_mat(matA:Matrix, title:str='', filename='this.png',):
   plt.axis('equal')
   plt.title(title)
   plt.savefig(filename)
+  print(f'see {filename}')
 
 
 def main():
