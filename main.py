@@ -55,6 +55,11 @@ def show_mat(matA:Matrix, title:str='', filename='this.png',):
   print(f'see {filename}')
 
 
+def clean_up_png():
+  import os
+  [os.remove(filename) for filename in os.listdir() if os.path.splitext(filename)[1].endswith('png')]
+
+
 def main():
   A33_list = [
     [1, 0, 1],
