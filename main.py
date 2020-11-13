@@ -1,77 +1,50 @@
-import typing
-import pprint
+import numpy as np
+import matplotlib.pyplot as plt
 
 
-Scalar = typing.Union[int, float]
-Row = typing.Union[typing.List[Scalar], typing.Tuple[Scalar]]
-Matrix = typing.Union[typing.List[Row], typing.Tuple[Row]]
-
-
-def get_zero(n:int) -> Matrix:
-    return [
-        [0] * n for i in range(n)
-    ]
-
-
-def get_identity(n:int) -> Matrix:
-    result = get_zero(n)
-    for i in range(n):
-        result[i][i] = 1
-
-    return result
-
-
-def augment_mats(A:Matrix, B:Matrix):
-    assert len(A) == len(B)
-    return [row_A + row_B for row_A, row_B in zip(A, B)]
+Matrix = np.ndarray
 
 
 def gauss_jordan(A:Matrix) -> Matrix:
-    AX = augment_mats(A, get_identity(len(A)))
+    assert 2 == len(A.shape), A.shape
+
+    n = A.shape[0]
+    m = A.shape[1]
+
+    assert n == m, A.shape
+
+    I = np.identity(n)
+
+    AX = np.hstack([A, I])
+    m = AX.shape[1]
     
     # pivot loop
     for p in range(len(AX)):
         print(f"p = {p}")
-        pprint.pprint(AX, width=50)
+        print(AX)
 
-        one_over_pivot = 1.0 / AX[p][p]
+        one_over_pivot = 1.0 / AX[p, p]
 
         # normalize a row with one_over_pivot
-        for j in range(len(AX[p])):
-            AX[p][j] *= one_over_pivot
+        AX[p, :] *= one_over_pivot
 
         print(f"p = {p} after normalization")
-        pprint.pprint(AX, width=50)
+        print(AX)
 
         # row loop
         for i in range(len(AX)):
             if i != p:
                 # row operation
-                multiplier = - AX[i][p]
+                multiplier = - AX[i, p]
 
-                # column loop
-                for j in range(0, len(AX[p])):
-                    AX[i][j] += multiplier * AX[p][j]
+                # column operation
+                AX[i, :] += multiplier * AX[p, :]
 
             print(f"p = {p} after i = {i}")
-            pprint.pprint(AX, width=50)
+            print(AX)
             input("=== Press Enter ===")
 
-    return [row[len(A):] for row in AX]
-
-
-def mat_mul(A:Matrix, B:Matrix) -> Matrix:
-  result = []
-
-  for i, row in enumerate(A):
-    new_row = [0] * len(B[0])
-    for j in range(len(B[0])):
-      for k, col in enumerate(B):
-        new_row[j] += row[k] * col[j]
-
-    result.append(new_row)
-
-  return result
+    return np.hsplit(AX, 2)[-1]
 
 
 def main():
@@ -81,13 +54,15 @@ def main():
     [1, 1, 1],
   ]
 
-  mat_A33_inv_GJ = gauss_jordan(A33_list)
+  A33_mat = np.array(A33_list)
+
+  mat_A33_inv_GJ = gauss_jordan(A33_mat)
 
   print("invert matrix B")
-  pprint.pprint(mat_A33_inv_GJ, width=20)
+  print(mat_A33_inv_GJ)
 
   print("A B == identity matrix")
-  pprint.pprint(mat_mul(A33_list, mat_A33_inv_GJ), width=20)
+  print(A33_mat @ mat_A33_inv_GJ)
 
 
 if "__main__" == __name__:
