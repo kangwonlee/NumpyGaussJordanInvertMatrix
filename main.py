@@ -1,6 +1,7 @@
 print("importing ...")
 
 import numpy as np
+import numpy.random as nr
 import matplotlib.pyplot as plt
 
 print("finished import")
@@ -63,21 +64,18 @@ def clean_up_png():
 def main():
   clean_up_png()
 
-  A33_list = [
-    [1, 0, 1],
-    [0, 2, 1],
-    [1, 1, 1],
-  ]
+  n = 5
 
-  A33_mat = np.array(A33_list)
+  nr.seed()
+  matA = nr.random((n, n))
 
-  mat_A33_inv_GJ = gauss_jordan(A33_mat)
+  matA_inv_GJ = gauss_jordan(matA)
 
   print("invert matrix B")
-  print(mat_A33_inv_GJ)
+  print(matA_inv_GJ)
 
   print("A B == identity matrix")
-  print(A33_mat @ mat_A33_inv_GJ)
+  print(matA @ matA_inv_GJ)
 
 
 if "__main__" == __name__:
