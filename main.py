@@ -61,6 +61,8 @@ def clean_up_png():
 
 
 def main():
+  clean_up_png()
+
   A33_list = [
     [1, 0, 1],
     [0, 2, 1],
