@@ -1,6 +1,9 @@
+print("importing ...")
+
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("finished import")
 
 Matrix = np.ndarray
 
@@ -20,16 +23,14 @@ def gauss_jordan(A:Matrix) -> Matrix:
     
     # pivot loop
     for p in range(len(AX)):
-        print(f"p = {p}")
-        print(AX)
+        show_mat(AX, f"p = {p}")
 
         one_over_pivot = 1.0 / AX[p, p]
 
         # normalize a row with one_over_pivot
         AX[p, :] *= one_over_pivot
 
-        print(f"p = {p} after normalization")
-        print(AX)
+        show_mat(AX, f"p = {p} after normalization")
 
         # row loop
         for i in range(len(AX)):
@@ -40,11 +41,17 @@ def gauss_jordan(A:Matrix) -> Matrix:
                 # column operation
                 AX[i, :] += multiplier * AX[p, :]
 
-            print(f"p = {p} after i = {i}")
-            print(AX)
+            show_mat(AX, f"p = {p} after i = {i}")
             input("=== Press Enter ===")
 
     return np.hsplit(AX, 2)[-1]
+
+
+def show_mat(matA:Matrix, title:str='', filename='this.png',):
+  plt.pcolor(matA)
+  plt.axis('equal')
+  plt.title(title)
+  plt.savefig(filename)
 
 
 def main():
