@@ -41,7 +41,7 @@ def gauss_jordan(A:Matrix) -> Matrix:
                 # column operation
                 AX[i, :] += multiplier * AX[p, :]
 
-            show_mat(AX, f"p = {p} after i = {i}", f"p={p:03d}_i={i:03d}.png")
+                show_mat(AX, f"p = {p} after i = {i}", f"p={p:03d}_i={i:03d}.png")
 
     return np.hsplit(AX, 2)[-1]
 
